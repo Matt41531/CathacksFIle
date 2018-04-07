@@ -2,10 +2,17 @@
 import speech_recognition as sr
 
 def analyze_text(text):
-    words = text.string()
+    negative = False
+    words = text.split()
     for word in words:
-        print(word)
-    return words
+        with open("negative_text.txt") as openfile:
+            print("Opened")
+            for line in openfile:
+                for part in line.split():
+                    if word == part:
+                        print("That was negative")
+                        negative = True
+    return negative
 
 
 def speech_to_text():
@@ -20,9 +27,10 @@ def speech_to_text():
             try:
                 text = r.recognize_google(audio)
                 print(text)
-                words = analyze_text(text)
-                for word in words:
-                    print(word + ",")
+                negative_words_found = analyze_text(text)
+                if negative_words_found:
+                    print("YOU ARE BANNED")
+
                 if r.recognize_google(audio) == "done":
                     done = True
 
