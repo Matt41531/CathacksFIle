@@ -1,0 +1,8 @@
+pip install SpeechRecogition
+pip install bs4
+pip install pyget
+pip install gtts
+pip install pygame
+pip install pyaudio
+pip install --upgrade watson-developer-cloud
+#Maybe: pip install --upgrade google-cloud
