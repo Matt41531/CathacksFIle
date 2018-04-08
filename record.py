@@ -6,7 +6,7 @@ def record():
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
     RATE = 44100
-    RECORD_SECONDS = 5
+    RECORD_SECONDS = 15
     WAVE_OUTPUT_FILENAME = "output.wav"
 
     p = pyaudio.PyAudio()
@@ -38,5 +38,9 @@ def record():
     wf.writeframes(b''.join(frames))
     wf.close()
 
-record()
+
+while running:
+    record()
+    from Speech.py import running
+
 

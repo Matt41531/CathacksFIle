@@ -93,6 +93,7 @@ def speech_to_text():
                 print(score)
                 if score < -.6:
                     print("Your speech has been determined to be negative. Please refrain from continuously adding negativity to the game.")
+                    return 1
 
                 if r.recognize_google(audio) == "done":
                     done = True
@@ -104,6 +105,8 @@ def speech_to_text():
 
 
 def main():
+    running = 1
     speech_to_text()
+    running = 0
 
 main()
