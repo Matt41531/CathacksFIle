@@ -5,41 +5,35 @@ from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 \
   import Features, EntitiesOptions, KeywordsOptions
 
-def sentiment_analyze():
+
+def sentiment_analyze(speech_text):
     natural_language_understanding = NaturalLanguageUnderstandingV1(
          url="https://gateway.watsonplatform.net/natural-language-understanding/api",
-         username= "e876778c-b8b8-4cc1-bac2-475198931406",
-         password= "NNFyyadwzKwB",
-         version = '2018-03-16')
+         username="e876778c-b8b8-4cc1-bac2-475198931406",
+         password="NNFyyadwzKwB",
+         version='2018-03-16')
 
     response = natural_language_understanding.analyze(
-      text='IBM is an American multinational technology company '
-           'headquartered in Armonk, New York, United States, '
-           'with operations in over 170 countries.',
+      text=speech_text,
       features=Features(
-        entities=EntitiesOptions(
-          emotion=True,
-          sentiment=True,
-          limit=2),
+        #entities=EntitiesOptions(
+          #emotion=True,
+          #sentiment=True,
+          #limit=2),
         keywords=KeywordsOptions(
-          emotion=True,
+          #emotion=True,
           sentiment=True,
           limit=2)))
 
-    print(json.dumps(response, indent=2))
+    #print(json.dumps(response, indent=2))
+    return json.dumps(response, indent=2)
 
-def analyze_text(text):
-    negative = False
-    words = text.split()
-    for word in words:
-        with open("negative_text.txt") as openfile:
-            for line in openfile:
-                for part in line.split():
-                    if word == part:
-                        print(word + " was negative")
-                        negative = True
-    return negative
 
+def test_analysis(text):
+    results = sentiment_analyze(text)
+    resultsj = json.loads(results)
+    score = resultsj["keywords"][0]["sentiment"]["score"]
+    print(score)
 
 def speech_to_text():
     r = sr.Recognizer()
@@ -53,8 +47,12 @@ def speech_to_text():
             try:
                 text = r.recognize_google(audio)
                 print(text)
-                negative_words_found = analyze_text(text)
-                if negative_words_found:
+                results = sentiment_analyze(text)
+                resultsj = json.loads(results)
+                #print(resultsj)
+                score=resultsj["keywords"][0]["sentiment"]["score"]
+                print(score)
+                if score < -.6:
                     print("YOU ARE BANNED")
 
                 if r.recognize_google(audio) == "done":
@@ -67,7 +65,6 @@ def speech_to_text():
 
 
 def main():
-    sentiment_analyze()
     speech_to_text()
 
 main()
