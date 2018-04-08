@@ -38,3 +38,5 @@ def record():
     wf.writeframes(b''.join(frames))
     wf.close()
 
+record()
+
