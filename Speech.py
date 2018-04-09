@@ -1,5 +1,7 @@
 
 import json
+from tkinter import *
+from tkinter import ttk
 import speech_recognition as sr
 from watson_developer_cloud import NaturalLanguageUnderstandingV1
 from watson_developer_cloud.natural_language_understanding_v1 \
@@ -65,7 +67,24 @@ def speech_to_text():
         print("exit")
 
 
+
+
 def main():
+    window = Tk()
+    #window.title("Referee")
+    enter_button = Button(window, text="Enter").grid(row=45, column=80, sticky=W, padx=4)
+    cancel_button = Button(window, text="Cancel").grid(row=45, column=0, stick=W, padx=4)
+    key = Entry(window).grid(row=30, column=40, sticky= W, padx=10, pady=10)
+    frame = Frame(window)
+    labelText = StringVar()
+    label = Label(frame, textvariable=labelText)
+
+    labelText.set("key")
+    label.grid(row=0, column=40, sticky=W, padx=4)
+    frame.grid()
+
+    window.mainloop()
+
     running = 1
     speech_to_text()
     running = 0
